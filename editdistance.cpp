@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <cmath>
 
 using  namespace std;
 
@@ -9,12 +10,10 @@ int minimum(int a,int b,int c);
 int main ()
 {
   cout << checkDistance("#intention","#execution") << endl;
-  return 0;
 }
 
 int checkDistance(string firstWord, string secondWord)
 {
-  int distance=0;
   //matrix inizialization
   int matrix[firstWord.length()][secondWord.length()];
   matrix[0][0]=0;
@@ -27,6 +26,7 @@ int checkDistance(string firstWord, string secondWord)
   {
     for (int j=1;j<secondWord.length();j++)
     {
+<<<<<<< Updated upstream
         matrix[i][j]=minimum(matrix[i-1][j],matrix[i][j-1],matrix[i-1][j-1]+(firstWord[i]==secondWord[j]?0:2));
     }
   }
@@ -49,4 +49,17 @@ int minimum(int a,int b,int c)
     return b;
   if (c>a&&c>b)
     return c;
+=======
+        int left = matrix[i][j-1]+1;
+        int up = matrix[i-1][j]+1;
+        int diag;
+        if (firstWord[i]==secondWord[j])
+          diag=matrix[i-1][j-1]+0;
+        else
+          diag=matrix[i-1][j-1]+2;
+        matrix[i][j]=min(min(left,up),diag);
+    }
+  }
+  return matrix[firstWord.length()-1][secondWord.length()-1];
+>>>>>>> Stashed changes
 }
