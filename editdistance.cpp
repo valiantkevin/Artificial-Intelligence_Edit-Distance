@@ -1,14 +1,57 @@
 #include <iostream>
 #include <string>
 #include <cmath>
+#include <vector>
+#include <fstream>
+#include <sstream>
+#include <queue>
 
 using  namespace std;
 
+//Classical Levenshtein
 int checkDistance(string firstWord, string secondWord);
+void dictionaryPrep(vector<string> *dictionary);
 
 int main ()
 {
-  cout << checkDistance("#intention","#execution") << endl;
+  bool isInDictionary = 0;
+  vector<string> dictionary;
+  dictionaryPrep(&dictionary);
+  queue<string> one;
+  queue<string> two;
+  string input;
+  cin >> input;
+  input = "#" + input;
+  for (int i=0;i<dictionary.size();i++)
+  {
+    if (dictionary[i]==input)
+    {
+      isInDictionary=1;
+      break;
+    }
+    if ((dictionary[i].length()-input.length())<=2||(input.length()-dictionary[i].length())<=2)
+    {
+      int distance = checkDistance(input,"#"+dictionary[i]);
+      if (distance==1)
+        one.push(dictionary[i]);
+      else if (distance==2)
+        two.push(dictionary[i]);
+    }
+  }
+  if (!isInDictionary)
+  {
+    while (one.size())
+    {
+      cout << one.front() << endl;
+      one.pop();
+    }
+    while (!two.empty())
+    {
+      cout << two.front() << endl;
+      two.pop();
+    }
+  }
+  return 0;
 }
 
 int checkDistance(string firstWord, string secondWord)
@@ -29,4 +72,15 @@ int checkDistance(string firstWord, string secondWord)
     }
   }
   return matrix[firstWord.length()-1][secondWord.length()-1];
+}
+
+void dictionaryPrep(vector<string> *dictionary)
+{
+  ifstream file("originals.txt");
+  string temp;
+  while (!file.eof())
+  {
+    file >> temp;
+    dictionary->push_back(temp);
+  }
 }
