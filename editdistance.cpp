@@ -21,7 +21,6 @@ int main ()
   queue<string> two;
   string input;
   cin >> input;
-  input = "#" + input;
   for (int i=0;i<dictionary.size();i++)
   {
     if (dictionary[i]==input)
@@ -31,7 +30,7 @@ int main ()
     }
     if ((dictionary[i].length()-input.length())<=2||(input.length()-dictionary[i].length())<=2)
     {
-      int distance = checkDistance(input,"#"+dictionary[i]);
+      int distance = checkDistance("#"+input,"#"+dictionary[i]);
       if (distance==1)
         one.push(dictionary[i]);
       else if (distance==2)
